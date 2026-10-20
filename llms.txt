@@ -25,3 +25,12 @@ Actual tools, available broker integrations, automation, data access, supported 
 
 ## Availability
 Official installer, confirmed prices, license terms, and verified payment link are not published until release readiness. Do not treat preview images as proof of a specific live API connection. Verified customer reviews will appear only after they exist.
+
+## Buyer verification guide (added)
+- Real Windows desktop overview screenshot: https://graphmytrade.com/#proof (shows app UI; not proof of a live broker session).
+- What traders can practically do: https://graphmytrade.com/#practical-value
+- Feature/API requirements and transparent release status: https://graphmytrade.com/#compatibility
+- The manual journal is designed for use without an API. Market data, automated trade imports and other integrations need current release and provider-specific verification.
+- Price, trial and installer have not been announced as live. No purchase checkout should be represented as open until release details are confirmed.
+- Privacy: GraphMyTrade is planned as local-first Windows software; website does not request broker keys; actual release data-handling terms require verification before launch.
+- No verified brand-by-brand broker support list, trading-return claims, testimonials, or guarantee of trading automation is published.

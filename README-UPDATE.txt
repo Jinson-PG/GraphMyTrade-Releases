@@ -23,3 +23,6 @@ SEO is structurally prepared; Google indexing and ranking require crawling after
 GITHUB
 The website-only branch is website-v6-premium of Jinson-PG/GraphMyTrade-Releases.
 The approved v5 snapshot remains in website-v5-locked. Desktop app code is unaffected.
+
+BUYER-CONFIDENCE ADDITIONS
+Three strictly additive sales-trust sections. No original hero, theme or scroll experience changed. Link to verified release information; price, trial and broker integrations intentionally not fabricated. See CHANGELOG-BUYER-PROOF-v6.md.
