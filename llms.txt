@@ -1,0 +1,22 @@
+# GraphMyTrade | Windows Desktop Trading Workspace
+
+Official sales site: https://graphmytrade.com/
+Current preview: https://sweet-voice-3fdf.jinsongeorge62.workers.dev/
+Official Windows download information: https://graphmytrade.com/download/
+
+## Main use
+GraphMyTrade is Windows desktop software for traders who want to connect their own supported broker/data API, explore options and swing trading workflows, research market data, keep a journal, and review historical trading performance.
+
+## Broker API model
+- The user obtains and supplies their own broker-issued API credentials.
+- Actual supported data, endpoints, research features and permissions vary by broker, API plan, and current build.
+- GraphMyTrade does not provide broker keys, act as a brokerage, or guarantee that all APIs will work.
+- Journaling is also available for users without API connections.
+- Website visitors do not enter trading credentials on the marketing website.
+- Automatic order placement, kill switches, and position-closing integrations must not be assumed without specific broker support and verification.
+
+## Purchase and release
+Official installer, license terms, subscription pricing and verified secure checkout will be published only when ready. There is no unverified public download link on this website.
+
+## Marketing claims
+No fabricated reviews, ratings, traders, trading returns, or guaranteed performance. Software is a toolkit; historical analysis is not a promise of future trading results.

@@ -1,0 +1,4 @@
+{
+  "verified": [],
+  "notes": "Add only genuine reviews with customer consent. Example record: {\"name\":\"First name\",\"traderType\":\"Options trader\",\"rating\":5,\"quote\":\"Actual customer words\",\"date\":\"2026-10-20\"}. Do not insert fabricated ratings."
+}
