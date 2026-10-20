@@ -1,56 +1,25 @@
-GRAPHMYTRADE WEBSITE — CORRECTED v6 (ORIGINAL v5 THEME + SCROLL 3D)
+GraphMyTrade Premium Sales Website — v6 Immersive Scroll Edition
+2026-10-21
 
-THIS PACKAGE PRESERVES THE USER-APPROVED v5 LIGHT/PLUM DESIGN.
-It does not replace the homepage with a different color palette or layout.
-New: 3D scroll on desktop product mockup, depth motion on feature visuals,
-pointer micro-interactions, gentle scroll reveals, enlarged app screenshot viewer.
-Responsive mobile is intentionally lighter and honors Reduced Motion.
+WHAT CHANGED
+- Original approved v5 design: same base style.css, sales-v4.css, sales-v5.css, colors and type.
+- New large scroll-pinned product experience (#experience), cinematic 3D perspective and three readable selling chapters.
+- New honest manual-first vs broker-API purchase explainer.
+- Improved structured data, social meta tags, sitemap home lastmod and llms.txt.
+- Reduced-motion support and a mobile/low-motion non-sticky fallback.
+- Download/legal/support configuration remains unchanged; no fake ratings/prices/API claims.
 
-DEPLOYMENT:
-Upload THIS ZIP (GraphMyTrade-v6-Original-Theme-Motion.zip) using
-Cloudflare Workers & Pages -> sweet-voice-3fdf -> New deployment.
-Do not use the earlier GraphMyTrade-Premium-Sales-Website-v6.zip redesign.
-Do NOT create a new Worker or change DNS, email, or nameservers.
-Verify Worker URL and custom domain separately after deploying.
+DEPLOY
+Cloudflare dashboard > Workers & Pages > existing sweet-voice-3fdf > Deployments > New deployment.
+Upload THIS ZIP as static assets. Do not create a new Worker and do not change Cloudflare DNS, domain nameservers or Hostinger email records.
+Test the workers.dev URL and your custom domain after deployment. The live site will NOT change until you deploy.
 
---- ORIGINAL v5 operational information ---
-GRAPHMYTRADE PREMIUM SALES WEBSITE — V5 (2026-10-20)
-=================================================
+NOTE
+The screenshot is an actual existing app preview (1910 x 983); the website supports a 4K browser layout but does not contain native-4K app-capture pixels.
+Current installer, verified pricing/checkout and review URLs are intentionally blank in assets/site-config.js; publish only after real release details are verified.
+Motion is CSS/vanilla JS; no CDN, paid service or browser permission is required.
+SEO is structurally prepared; Google indexing and ranking require crawling after live deployment and are not guaranteed.
 
-WEBSITE TYPE
-Static public marketing website for the GraphMyTrade WINDOWS DESKTOP software.
-It is NOT the desktop application and it does not accept broker API keys.
-
-VISUAL CHANGES
-- Above-fold split hero: short message left, REAL app screenshot right
-- Smooth, subtle motion with reduced-motion support
-- Responsive desktop / tablet / mobile first impression
-- App screenshot-derived logo icon bundled locally (source is the supplied desktop UI screenshot)
-- Content and native footer/legal/download/reviews pages preserved
-
-HOW TO UPDATE THE EXISTING CLOUDFLARE WORKER
-1) Sign in to https://dash.cloudflare.com
-2) Workers & Pages -> sweet-voice-3fdf -> Deployments / New deployment
-3) Upload the ZIP containing this site's files (index.html is at archive root)
-4) Preview and deploy. Do not create a second project or change DNS as part of this upload.
-5) Confirm routes and mobile navigation.
-
-BLOCKERS BEFORE A PUBLIC SOFTWARE SALES LAUNCH
-- Fill assets/site-config.js with VERIFIED installer URL and release version.
-- Fill EXACT price / license term / checkout URL. Never collect payments before proper policies and working download.
-- Provide a verified support email and customer review form.
-- Set ga4MeasurementId only after creating a Google Analytics 4 property; users are prompted for consent.
-- Connect graphmytrade.com as an actual custom domain, check redirects/SSL, and submit sitemap in Google Search Console.
-- Verify all legal/policy copy with the business owner.
-- Web pages may be indexed by crawlers; ranking and AI recommendation aren't guaranteed.
-- API/broker features must be verified against actual supported connectors, data entitlements, and broker permissions.
-- Actual installer binaries are separate from Cloudflare Workers static assets.
-
-SEO FILES
-robots.txt; sitemap.xml; llms.txt; OG image; JSON-LD Product/Organization/FAQ; canonicals.
-Avoid publishing review/rating structured data before verified ratings exist.
-
-QUALITY CHECK
-Offline Chromium visual tests passed for 1440x900, 768x1024 and 390x844.
-Verified no horizontal overflow, first-fold product screenshot loaded, logo loaded,
-no JavaScript errors in tested viewports, and mobile navigation opens.
+GITHUB
+The website-only branch is website-v6-premium of Jinson-PG/GraphMyTrade-Releases.
+The approved v5 snapshot remains in website-v5-locked. Desktop app code is unaffected.

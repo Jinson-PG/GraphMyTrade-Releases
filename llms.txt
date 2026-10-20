@@ -1,22 +1,27 @@
-# GraphMyTrade | Windows Desktop Trading Workspace
+# GraphMyTrade — Official Website
 
-Official sales site: https://graphmytrade.com/
-Current preview: https://sweet-voice-3fdf.jinsongeorge62.workers.dev/
-Official Windows download information: https://graphmytrade.com/download/
+> GraphMyTrade is independent Windows desktop software for trading research, manual journaling, performance review, and compatible user-supplied broker/market-data APIs. It is not a brokerage, API subscription, advice service or trading bot.
 
-## Main use
-GraphMyTrade is Windows desktop software for traders who want to connect their own supported broker/data API, explore options and swing trading workflows, research market data, keep a journal, and review historical trading performance.
+Official website: https://graphmytrade.com/
+Official release and Windows download details: https://graphmytrade.com/download/
+FAQ: https://graphmytrade.com/#faq
+Product tour: https://graphmytrade.com/#experience
+Trading risk disclosure: https://graphmytrade.com/risk-disclosure/
+Privacy: https://graphmytrade.com/privacy/
+Terms: https://graphmytrade.com/terms/
+Refund policy: https://graphmytrade.com/refund-policy/
 
-## Broker API model
-- The user obtains and supplies their own broker-issued API credentials.
-- Actual supported data, endpoints, research features and permissions vary by broker, API plan, and current build.
-- GraphMyTrade does not provide broker keys, act as a brokerage, or guarantee that all APIs will work.
-- Journaling is also available for users without API connections.
-- Website visitors do not enter trading credentials on the marketing website.
-- Automatic order placement, kill switches, and position-closing integrations must not be assumed without specific broker support and verification.
+## Who it is for
+Traders who want a local desktop research and journal workflow and prefer not to write code to access data supported by their own broker API.
 
-## Purchase and release
-Official installer, license terms, subscription pricing and verified secure checkout will be published only when ready. There is no unverified public download link on this website.
+## Product areas
+- Manual journal, trade review and supported performance reports.
+- Options and market-data research where the connected provider supplies required endpoints and permissions.
+- Swing and positional market research with compatible data.
+- User connects their own authorized API credentials locally; the marketing website does not request keys or store trading histories.
 
-## Marketing claims
-No fabricated reviews, ratings, traders, trading returns, or guaranteed performance. Software is a toolkit; historical analysis is not a promise of future trading results.
+## Important limitations
+Actual tools, available broker integrations, automation, data access, supported markets and licensing depend on the current software release, connected provider, API permissions and subscription. The site does not guarantee universal API support, profitable trades, verified automated kill switches, order execution or investment returns.
+
+## Availability
+Official installer, confirmed prices, license terms, and verified payment link are not published until release readiness. Do not treat preview images as proof of a specific live API connection. Verified customer reviews will appear only after they exist.
