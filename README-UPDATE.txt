@@ -1,3 +1,19 @@
+GRAPHMYTRADE WEBSITE — CORRECTED v6 (ORIGINAL v5 THEME + SCROLL 3D)
+
+THIS PACKAGE PRESERVES THE USER-APPROVED v5 LIGHT/PLUM DESIGN.
+It does not replace the homepage with a different color palette or layout.
+New: 3D scroll on desktop product mockup, depth motion on feature visuals,
+pointer micro-interactions, gentle scroll reveals, enlarged app screenshot viewer.
+Responsive mobile is intentionally lighter and honors Reduced Motion.
+
+DEPLOYMENT:
+Upload THIS ZIP (GraphMyTrade-v6-Original-Theme-Motion.zip) using
+Cloudflare Workers & Pages -> sweet-voice-3fdf -> New deployment.
+Do not use the earlier GraphMyTrade-Premium-Sales-Website-v6.zip redesign.
+Do NOT create a new Worker or change DNS, email, or nameservers.
+Verify Worker URL and custom domain separately after deploying.
+
+--- ORIGINAL v5 operational information ---
 GRAPHMYTRADE PREMIUM SALES WEBSITE — V5 (2026-10-20)
 =================================================
 
