@@ -10,6 +10,7 @@
 - Smooth optional scroll reveals, subtle cursor-responsive hero perspective, soft card/CTA hover and reading-progress cue. Respects OS reduced-motion preference; essential content visible without JavaScript.
 - Full-size real app preview dialog with keyboard Escape, native focus handling and close controls.
 - Clear feature descriptions for user-supplied compatible APIs, research, journal, analytics and supported history; explicit boundaries where API permissions differ.
+- Consistent redesign across the homepage, official Windows download and branded 404 pages.
 - Mobile navigation and responsive styles for compact screens, tablets, large desktops and wide monitors.
 - SEO title/description/structured FAQ/SoftwareApplication schema; preserves canonical, og and sitemap, robots, Hostinger mail DNS unaffected.
 - No invented customer reviews, no fictional prices, no false claims about universal broker support or automatic kill-switch availability.
@@ -20,7 +21,7 @@
 - Pricing, checkout URL, review URL, and analytics remain unconfigured until verified.
 - Image source is the original genuine 1910 × 983 app screenshot. Enlarged viewing improves visibility but **is not a newly captured native-4K app screenshot**. Replace the file when a verified native-resolution capture is available.
 - Website **does not deploy itself**. To publish upload the site files to Cloudflare Worker `sweet-voice-3fdf` static assets or your Cloudflare project. Verify apex and www on Airtel and other networks. Domain DNS incident should be resolved separately.
-- This archived v6 package includes existing v5 secondary pages and legal text unchanged.
+- Legal/policy pages preserve their earlier verified text and layout; download and 404 pages now use v6 styling.
 
 ## Quick smoke-test checklist
 1. Check `/` at desktop (1440px), wide monitor (2560px), tablet (768px), mobile (390px/320px).
