@@ -9,11 +9,12 @@
  const q=new URL(location.href);
  let active=Object.hasOwn(names,q.searchParams.get('category'))?q.searchParams.get('category'):'all';
  let catalog=[];
+ let checkoutReady=false;
  input.value=(q.searchParams.get('q')||'').slice(0,120);
  const node=(tag,cls,text)=>{let x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=text;return x;};
  const safeCheckout=value=>{try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&!u.port&&!u.hash&&['imjo.in','instamojo.com','www.instamojo.com','graphmytrade99shop.myinstamojo.com'].includes(u.hostname)&&u.pathname.length>2;}catch{return false;}};
  const safeCover=value=>{if(!value)return true;if(/^\/assets\/[a-z0-9/_-]+\.(png|webp|jpe?g)$/i.test(value))return true;try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password;}catch{return false;}};
- const valid=p=>p&&typeof p==='object'&&!Array.isArray(p)&&p.status==='published'&&typeof p.slug==='string'&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.slug)&&p.slug.length<=80&&typeof p.title==='string'&&p.title.trim().length>=3&&p.title.length<=140&&typeof p.description==='string'&&p.description.trim().length>=12&&p.description.length<=2400&&typeof p.category==='string'&&Object.hasOwn(names,p.category)&&formats.has(p.format)&&Number.isInteger(p.priceInr)&&p.priceInr>=1&&p.priceInr<=99&&typeof p.checkoutUrl==='string'&&safeCheckout(p.checkoutUrl)&&(!p.cover||typeof p.cover==='string'&&safeCover(p.cover));
+ const valid=p=>p&&typeof p==='object'&&!Array.isArray(p)&&p.status==='published'&&typeof p.slug==='string'&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.slug)&&p.slug.length<=80&&typeof p.title==='string'&&p.title.trim().length>=3&&p.title.length<=140&&typeof p.description==='string'&&p.description.trim().length>=12&&p.description.length<=2400&&typeof p.category==='string'&&Object.hasOwn(names,p.category)&&formats.has(p.format)&&Number.isInteger(p.priceInr)&&p.priceInr>=1&&p.priceInr<=99&&(!p.checkoutUrl||typeof p.checkoutUrl==='string'&&safeCheckout(p.checkoutUrl))&&(!p.cover||typeof p.cover==='string'&&safeCover(p.cover));
  const prod=p=>{
    const card=node('article','gmt-product'),link=node('a','gmt-product-image');link.href='/store/p/'+encodeURIComponent(p.slug)+'/';link.setAttribute('aria-label','View '+p.title);
    if(p.cover){const img=node('img');img.src=p.cover;img.alt=p.title+' cover';img.loading='lazy';link.append(img);}
@@ -22,7 +23,10 @@
    const body=node('div','gmt-product-copy');
    body.append(node('span','gmt-product-label',names[p.category]),node('h3',null,p.title),node('p',null,p.description));
    const action=node('div','gmt-product-buy');
-   const buy=node('a',null,'Buy now ↗');buy.href=p.checkoutUrl;buy.target='_blank';buy.rel='noopener noreferrer';buy.setAttribute('aria-label','Buy '+p.title+' on Instamojo');
+   const buy=node('a',null,checkoutReady?'Buy now ↗':'View details ↗');
+   buy.href=checkoutReady?p.checkoutUrl:link.href;
+   if(checkoutReady){buy.target='_blank';buy.rel='noopener noreferrer';}
+   buy.setAttribute('aria-label',(checkoutReady?'Buy ':'View details for ')+p.title);
    action.append(node('strong',null,'₹'+p.priceInr),buy);
    body.append(action);card.append(link,body);return card;
  };
@@ -53,7 +57,8 @@
    .then(async r=>{if(!r.ok)throw Error('Catalog HTTP error');return r.json();})
    .then(data=>{
      if(data.schemaVersion!==3||data.currency!=='INR'||!Array.isArray(data.products)||data.products.length>300||typeof data.checkoutEnabled!=='boolean')throw Error('Invalid catalog');
-     catalog=data.checkoutEnabled?data.products.filter(p=>{if(!valid(p)||seen.has(p.slug))return false;seen.add(p.slug);return true;}):[];
+     checkoutReady=data.checkoutEnabled;
+     catalog=data.products.filter(p=>{if(!valid(p)||seen.has(p.slug)||checkoutReady&&!safeCheckout(p.checkoutUrl))return false;seen.add(p.slug);return true;});
      draw();
    })
    .catch(()=>{grid.hidden=empty.hidden=noResults.hidden=true;failure.hidden=false;results.textContent='Catalog temporarily unavailable';});
