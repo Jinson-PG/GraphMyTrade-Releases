@@ -36,7 +36,7 @@ function productPage(p,preview){
  '<title>',h(p.seoTitle),'</title><meta name="description" content="',h(p.seoDescription),'">',
  '<link rel="canonical" href="',h(canonical),'"><meta property="og:type" content="product">',
  '<meta property="og:title" content="',h(p.seoTitle),'"><meta property="og:description" content="',h(p.seoDescription),'">',
- '<meta property="og:image" content="',h(image),'"><link rel="stylesheet" href="/assets/shop-editorial.css">',
+ '<meta property="og:image" content="',h(image),'"><link rel="stylesheet" href="/assets/shop-v5.css">',
  '<script type="application/ld+json">',safeJson(data),'</script></head><body class="shop-page">',
  '<header class="shop-header"><div class="shop-container shop-header-row"><a href="/" class="shop-logo">',
  '<img src="/assets/graphmytrade-app-logo.png" width="38" height="38" alt=""><span><b>GraphMyTrade</b><small>99 SHOP</small></span></a>',
