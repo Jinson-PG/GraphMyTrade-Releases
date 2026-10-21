@@ -15,7 +15,7 @@ export function safeInstamojoUrl(input) {
   try {
     const url=new URL(s(input,700));
     if(url.protocol!=='https:'||url.username||url.password||url.port||url.hash) return '';
-    if(!['www.instamojo.com','instamojo.com','imjo.in'].includes(url.hostname.toLowerCase())) return '';
+    if(!['www.instamojo.com','instamojo.com','imjo.in','graphmytrade99shop.myinstamojo.com'].includes(url.hostname.toLowerCase())) return '';
     if(url.pathname.length<3||url.pathname==='/'||url.pathname.includes('//')) return '';
     return url.href;
   } catch {return '';}
