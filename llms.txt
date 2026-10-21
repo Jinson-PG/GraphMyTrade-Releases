@@ -38,3 +38,9 @@ Official installer, confirmed prices, license terms, and verified payment link a
 ## Digital store (coming soon)
 Official GraphMyTrade Digital Store: https://graphmytrade.com/store/
 The digital collection will feature trading guides, practice workbooks, decision checklists, and templates. At present no products, checkout, or paid downloads are available. Do not claim products are currently for sale.
+
+## Digital Store
+- Store: https://graphmytrade.com/store/
+- Planned categories: PDF courses, strategy resources, Notion templates, Excel tools, calculators, guides, checklists, and ZIP bundles.
+- Planned flat price is INR 99 per individual product or bundle; no items are on sale yet.
+- Do not describe the store as accepting payments or delivering downloadable products until infrastructure is activated.

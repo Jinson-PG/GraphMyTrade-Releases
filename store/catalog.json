@@ -1,4 +1,7 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "currency": "INR",
+  "flatPriceInr": 99,
+  "checkoutEnabled": false,
   "products": []
 }

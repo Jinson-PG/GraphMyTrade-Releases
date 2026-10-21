@@ -1,21 +1,21 @@
-# GraphMyTrade Digital Store — prelaunch v1
+# GraphMyTrade Digital Marketplace v2 — prelaunch
 
-## Status
-The storefront is real and navigable at `/store/`. No PDFs or products are published. `store/catalog.json` has an empty product list. No payment, order fulfillment, email capture or download entitlement endpoints exist.
+Full digital marketplace shell, not PDF-only. Formats: educational course PDFs, strategies, Notion templates, Excel tools, calculators, guides, checklists, ZIP bundles.
 
-## Product catalog configuration
-Products are NOT published by adding PDFs into public site assets. First implement a secure payments-and-delivery backend with server-side verification, private files and expiring download access. Only then add products to the catalog.
+- Planned price: INR 99 per item **including bundles** (any change must be explicitly made and clearly shown).
+- `store/catalog.json`: schemaVersion 2, currency INR, flatPriceInr 99, checkoutEnabled false, products [].
+- Store: `/store/`; reserved paths: `/store/item/`, `/store/cart/`, `/store/checkout/`, `/store/library/`.
+- Zero products and zero orders. No stock/ratings/testimonials fabricated.
+- No customer login, checkout processing, payment confirmation, file delivery, license entitlement, order system or merchant KYC implemented. All transaction paths visibly disabled.
+- All product detail, cart, checkout, download-library skeleton pages have robots noindex,follow.
+- No payment credentials, bank/payment data, broker credentials, or customer details are requested.
+- Website homepage, theme, 3D motion, download page and legal pages remain unchanged.
 
-The catalog format is `{ "schemaVersion": 1, "products": [] }`. Future records may include `slug`, `title`, `category` (guides/workbooks/checklists/templates), `description`, `format` (PDF/XLSX/ZIP), `priceInr` (0–99.99; final price policy to confirm), `cover` (trusted local public image URL), `addedAt` (ISO date), and `status` (draft/published). The UI ignores draft items.
+## Future sale activation (not built)
+1. Merchant onboarding/KYC and approved digital-goods payment gateway; terms, tax and digital-content refunds.
+2. Backend orders, server-generated price (never client-supplied), server-confirmed payment + webhook signature/idempotency.
+3. Private R2 files, short-lived verified download links, buyer recovery/email, order invoices and limits.
+4. Unique static crawlable product SEO pages, images, original helpful copy and Product/Offer JSON-LD only when purchasable.
+5. E2E payments/refunds/failed payments and abuse/accessibility/security QA prior to checkoutEnabled.
 
-An item page template exists at `/store/item/?slug=...` but is explicitly `noindex` and never offers purchase until payment integration is completed. Do not use this skeleton as the final SEO canonical for paid product pages: generate unique crawlable static detail routes and Product schema once actual products are available.
-
-## Security requirements before any live sales
-- Private PDF objects (not accessible in `/assets/`); signed short-lived downloads
-- Server-side Razorpay order creation, verification, webhook signature checks and idempotency
-- Never trust price or payment status passed by client
-- Publisher merchant KYC, tax/GST and digital-goods/refund policy compliance
-- Clear support and refund procedures; accessibility and real purchase E2E QA
-
-## Deployment
-Upload the full ZIP to the existing Cloudflare Worker static assets deployment. Existing website styles/scripts unchanged. The homepage and secondary navigation simply link to `/store/`.
+**Do not flip checkoutEnabled by editing static catalog:** only backend purchase verification can enable sales.
