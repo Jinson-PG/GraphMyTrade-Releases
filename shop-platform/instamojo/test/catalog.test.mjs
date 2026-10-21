@@ -37,7 +37,7 @@ test('HTML is escaped and product SEO page has secure outbound link',()=>{
 });
 
 
-const storeHtml=readFileSync(new URL('../../../public/store/index.html',import.meta.url),'utf8');
+const storeHtml=readFileSync(new URL('../../public/store/index.html',import.meta.url),'utf8');
 test('only our actual Instamojo storefront host is allowed as a merchant link',()=>{
  assert.equal(safeInstamojoUrl('https://graphmytrade99shop.myinstamojo.com/product/resume-kit'),
   'https://graphmytrade99shop.myinstamojo.com/product/resume-kit');
