@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {parseCsv,publishedProducts,safeInstamojoUrl,escapeHtml} from '../src/catalog.mjs';
-import {productPage} from '../src/worker.mjs';
+import worker,{productPage,renderShopHome} from '../src/worker.mjs';
+import {readFileSync} from 'node:fs';
 const header='slug,title,description,category,format,priceInr,status,instamojoUrl,cover,seoTitle,seoDescription,keywords,includes,compatibility,license,addedAt';
 const row=(slug,status='published',url='https://imjo.in/test123',price=99)=>
  [slug,'Digital Sample','Detailed, useful product description','excel','XLSX',price,status,url,'','','','','','','','2026-10-21'].map(s=>String(s).includes(',')?'"'+String(s).replace(/"/g,'""')+'"':s).join(',');
@@ -33,4 +34,59 @@ test('HTML is escaped and product SEO page has secure outbound link',()=>{
  assert.match(html,/noindex,nofollow/);
  assert.match(html,/rel="noopener noreferrer"/);
  assert.match(html,/instamojo/);
+});
+
+
+const storeHtml=readFileSync(new URL('../../../public/store/index.html',import.meta.url),'utf8');
+test('only our actual Instamojo storefront host is allowed as a merchant link',()=>{
+ assert.equal(safeInstamojoUrl('https://graphmytrade99shop.myinstamojo.com/product/resume-kit'),
+  'https://graphmytrade99shop.myinstamojo.com/product/resume-kit');
+ for(const url of ['https://another.myinstamojo.com/product/x','https://graphmytrade99shop.myinstamojo.com.evil.org/x',
+   'https://graphmytrade99shop.myinstamojo.com/','http://graphmytrade99shop.myinstamojo.com/product/x']){
+   assert.equal(safeInstamojoUrl(url),'',url);
+ }
+});
+test('initial HTML server renders only approved products and crawlable product links',()=>{
+ const allowed=publishedProducts([header,row('real-product'),row('private-product','draft'),row('bad-product','published','https://fake-shop.tld/pay')].join('\n'));
+ const html=renderShopHome(storeHtml,allowed,false);
+ assert.match(html,/<a class="gmt-product-image" href="\/store\/p\/real-product\/"/);
+ assert.match(html,/<h3><a href="\/store\/p\/real-product\/">Digital Sample<\/a><\/h3>/);
+ assert.match(html,/"@type":"ItemList"/);
+ assert.match(html,/"numberOfItems":1/);
+ assert.doesNotMatch(html,/private-product|bad-product/);
+ assert.doesNotMatch(html,/id="gmt-product-grid" hidden/);
+});
+test('unpublished store has no Product/ItemList markup or dummy product links',()=>{
+ const html=renderShopHome(storeHtml,[],true);
+ assert.match(html,/content="noindex,nofollow"/);
+ assert.match(html,/id="gmt-empty" data-reveal>/);
+ assert.doesNotMatch(html,/"@type":"ItemList"/);
+ assert.doesNotMatch(html,/\/store\/p\/[a-z0-9-]+\//);
+});
+test('worker returns noindex preview HTML, index-ready production HTML, and correct HEAD',async()=>{
+ const headers={'Content-Type':'text/html; charset=utf-8'};
+ const env={SHEET_CSV_URL:'',ASSETS:{fetch:async()=>new Response(storeHtml,{headers})}};
+ const preview=await worker.fetch(new Request('https://graphmytrade-99-shop-preview.example.workers.dev/store/'),env);
+ assert.equal(preview.status,200);
+ assert.equal(preview.headers.get('X-Robots-Tag'),'noindex,nofollow');
+ assert.match(await preview.text(),/content="noindex,nofollow"/);
+ const production=await worker.fetch(new Request('https://graphmytrade.com/store/'),env);
+ assert.equal(production.status,200);
+ assert.equal(production.headers.get('X-Robots-Tag'),null);
+ assert.match(await production.text(),/content="index,follow,max-image-preview:large"/);
+ const head=await worker.fetch(new Request('https://graphmytrade.com/store/',{method:'HEAD'}),env);
+ assert.equal(head.status,200);
+ assert.equal(await head.text(),'');
+});
+test('product SEO includes canonical, open graph URL, price and visible compatibility',()=>{
+ const p=publishedProducts([header,row('career-kit')].join('\n'))[0];
+ p.compatibility='Excel desktop';
+ p.license='Personal use';
+ const html=productPage(p,false);
+ assert.match(html,/property="og:url" content="https:\/\/graphmytrade.com\/store\/p\/career-kit\/"/);
+ assert.match(html,/name="twitter:card" content="summary_large_image"/);
+ assert.match(html,/"priceCurrency":"INR"/);
+ assert.match(html,/Excel desktop/);
+ assert.match(html,/Personal use/);
+ assert.doesNotMatch(html,/aggregateRating|reviewCount/);
 });
