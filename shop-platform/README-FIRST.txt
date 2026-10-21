@@ -1,0 +1,1 @@
+GraphMyTrade general digital shop + protected Cloudflare Admin. READ SETUP-FREE-TIER.md. This is a Worker application, not a simple static-assets ZIP. Never upload the full source as static assets. Existing sweet-voice-3fdf Worker must not be replaced during staging. No payment/orders/live downloads implemented. No products are created or published.

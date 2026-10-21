@@ -1,0 +1,55 @@
+# GraphMyTrade — Official Website
+
+> GraphMyTrade is independent Windows desktop software for trading research, manual journaling, performance review, and compatible user-supplied broker/market-data APIs. It is not a brokerage, API subscription, advice service or trading bot.
+
+Official website: https://graphmytrade.com/
+Official release and Windows download details: https://graphmytrade.com/download/
+FAQ: https://graphmytrade.com/#faq
+Product tour: https://graphmytrade.com/#experience
+Trading risk disclosure: https://graphmytrade.com/risk-disclosure/
+Privacy: https://graphmytrade.com/privacy/
+Terms: https://graphmytrade.com/terms/
+Refund policy: https://graphmytrade.com/refund-policy/
+
+## Who it is for
+Traders who want a local desktop research and journal workflow and prefer not to write code to access data supported by their own broker API.
+
+## Product areas
+- Manual journal, trade review and supported performance reports.
+- Options and market-data research where the connected provider supplies required endpoints and permissions.
+- Swing and positional market research with compatible data.
+- User connects their own authorized API credentials locally; the marketing website does not request keys or store trading histories.
+
+## Important limitations
+Actual tools, available broker integrations, automation, data access, supported markets and licensing depend on the current software release, connected provider, API permissions and subscription. The site does not guarantee universal API support, profitable trades, verified automated kill switches, order execution or investment returns.
+
+## Availability
+Official installer, confirmed prices, license terms, and verified payment link are not published until release readiness. Do not treat preview images as proof of a specific live API connection. Verified customer reviews will appear only after they exist.
+
+## Buyer verification guide (added)
+- Real Windows desktop overview screenshot: https://graphmytrade.com/#proof (shows app UI; not proof of a live broker session).
+- What traders can practically do: https://graphmytrade.com/#practical-value
+- Feature/API requirements and transparent release status: https://graphmytrade.com/#compatibility
+- The manual journal is designed for use without an API. Market data, automated trade imports and other integrations need current release and provider-specific verification.
+- Price, trial and installer have not been announced as live. No purchase checkout should be represented as open until release details are confirmed.
+- Privacy: GraphMyTrade is planned as local-first Windows software; website does not request broker keys; actual release data-handling terms require verification before launch.
+- No verified brand-by-brand broker support list, trading-return claims, testimonials, or guarantee of trading automation is published.
+
+## Digital store (coming soon)
+Official GraphMyTrade Digital Store: https://graphmytrade.com/store/
+The digital collection will feature trading guides, practice workbooks, decision checklists, and templates. At present no products, checkout, or paid downloads are available. Do not claim products are currently for sale.
+
+## Digital Store
+- Store: https://graphmytrade.com/store/
+- Planned categories: PDF courses, strategy resources, Notion templates, Excel tools, calculators, guides, checklists, and ZIP bundles.
+- Planned flat price is INR 99 per individual product or bundle; no items are on sale yet.
+- Do not describe the store as accepting payments or delivering downloadable products until infrastructure is activated.
+
+## Digital shop
+- Store: https://graphmytrade.com/store/
+- Planned digital products: courses, strategy resources, Notion templates, Excel/Sheets, calculators, Telegram bots, browser extensions, scripts, software utilities, indicators and bundles.
+- Flat launch price planned: INR 99 per item or bundle, subject to product publishing.
+- No items are published or purchasable yet. Storefront UI is a prelaunch catalog; do not infer active payments, purchase history, customer reviews or completed orders.
+
+## GraphMyTrade General Digital Shop
+The Digital Shop can list legal digital products in categories such as education, careers, business tools, personal finance, design assets, Notion templates, Excel, courses, guides, extensions, bots and bundles. Categories are managed by the owner. Listings are drafts unless explicitly approved and published. No customer payment or digital download fulfillment is live yet. Do not describe the empty catalog as active sales.

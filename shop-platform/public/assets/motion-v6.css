@@ -1,0 +1,89 @@
+/* GraphMyTrade Motion v6 — a lightweight enhancement to the APPROVED v5 visual design.
+   Do not alter v5 palette, typography, layout or content. Works without JS. */
+:root { --gmt6-ease: cubic-bezier(.22,1,.36,1); }
+/* Small navigation quality-of-life feedback, using the ORIGINAL colors. */
+.v4-nav a, .v4-footer nav a, .v4-text-link { transition: color .28s ease, opacity .28s ease; }
+.v4-nav a:hover, .v4-footer nav a:hover { color:#84385e; }
+.v5-hero { background-size:100% 100%; }
+/* The same v5 glow: just a slow, small breath. */
+.v5-showcase .v5-glow { animation:gmt6-glow 10s ease-in-out infinite alternate; }
+@keyframes gmt6-glow { from {opacity:.76;transform:scale(.97)} to {opacity:1;transform:scale(1.07)} }
+/* Scroll-linked 3D stage. Keeps the approved v5 -4deg / 1deg at page-top.
+   The existing layout, palette, DOM ordering and text stay exactly the same.
+   Only composite transforms change while the visitor scrolls. */
+@media (hover:hover) and (pointer:fine) and (min-width:791px) and (prefers-reduced-motion:no-preference) {
+  .v5-showcase { perspective:1700px; perspective-origin:50% 48%; }
+  .v5-showcase .v4-product {
+    transform: perspective(1500px)
+      rotateY(calc(-4deg + var(--gmt6-scroll-ry,0deg) + var(--gmt6-tilt-x,0deg)))
+      rotateX(calc(1deg + var(--gmt6-scroll-rx,0deg) + var(--gmt6-tilt-y,0deg)))
+      translate3d(0,var(--gmt6-scroll-y,0px),var(--gmt6-scroll-z,0px));
+    transform-style:preserve-3d;
+    transition:box-shadow .55s ease,transform .16s linear;
+  }
+  .v5-showcase .v4-product:hover {
+    transform: perspective(1500px)
+      rotateY(calc(-.5deg + var(--gmt6-scroll-ry,0deg) + var(--gmt6-tilt-x,0deg)))
+      rotateX(calc(1deg + var(--gmt6-scroll-rx,0deg) + var(--gmt6-tilt-y,0deg)))
+      translate3d(0,calc(var(--gmt6-scroll-y,0px) - 5px),var(--gmt6-scroll-z,0px));
+  }
+  /* Independent translate property composes with the original v5 floating keyframes. */
+  .v5-float-top { translate:0 var(--gmt6-float-top,0px); }
+  .v5-float-bottom { translate:0 var(--gmt6-float-bottom,0px); }
+  /* Move only decorative graphics: never tilt textual content or CTA controls. */
+  .v4-feature .v4-api-diagram,
+  .v4-feature .v4-visual-chart,
+  .v4-feature .v4-candle-wrap,
+  .v4-feature .v4-journal-ui {
+    transform:perspective(1000px) rotateX(var(--gmt6-card-rx,0deg))
+      rotateY(var(--gmt6-card-ry,0deg)) translate3d(0,var(--gmt6-card-y,0px),0);
+    transform-origin:center center;
+    transition:transform .15s linear;
+    backface-visibility:hidden;
+  }
+}
+/* When scrolling, reveal with a deliberate editorial rhythm; same v5 elements/positions. */
+.v4-bento .v4-feature:nth-child(2){transition-delay:80ms}
+.v4-bento .v4-feature:nth-child(3){transition-delay:140ms}
+.v4-bento .v4-feature:nth-child(4){transition-delay:200ms}
+.v4-steps .v4-step:nth-child(2){transition-delay:90ms}
+.v4-steps .v4-step:nth-child(3){transition-delay:160ms}
+/* Cards never relocate; gentle light follows pointer only while hovered. */
+.v4-feature { isolation:isolate; }
+.v4-feature::after { content:"";position:absolute;inset:0;pointer-events:none;z-index:0;border-radius:inherit;
+  background:radial-gradient(380px circle at var(--gmt6-x,50%) var(--gmt6-y,50%),rgba(132,56,94,.055),transparent 62%);
+  opacity:0;transition:opacity .4s ease; }
+@media (hover:hover) { .v4-feature:hover::after {opacity:1} }
+.v4-feature > * {position:relative;z-index:1} /* existing layout remains intact */
+.v5-hero .v4-button span[aria-hidden],.desktop-cta span[aria-hidden] {display:inline-block;transition:transform .35s var(--gmt6-ease)}
+.v5-hero .v4-button:hover span[aria-hidden],.desktop-cta:hover span[aria-hidden] {transform:translate(3px,-3px)}
+/* Unobtrusive 'see full screenshot' control; existing product frame untouched. */
+.gmt6-view-image { position:absolute;z-index:3;right:24px;bottom:71px;display:inline-flex;align-items:center;gap:7px;
+  color:#442c3b;background:rgba(255,252,254,.94);border:1px solid rgba(209,187,200,.95);
+  box-shadow:0 9px 25px -15px #33132299;backdrop-filter:blur(12px);border-radius:10px;
+  font-size:11px;letter-spacing:.005em;font-weight:680;padding:9px 12px;
+  transition:transform .3s var(--gmt6-ease),box-shadow .3s ease; }
+.gmt6-view-image:hover {transform:translateY(-2px);box-shadow:0 14px 28px -16px #331322aa}
+/* Full-size image reader is optional and does not change base page styling. */
+.gmt6-lightbox { padding:0;border:1px solid #ddd0d7;border-radius:16px;max-width:min(96vw,1680px);
+  width:max-content;max-height:92vh;overflow:auto;background:#fff;box-shadow:0 24px 95px #1e121ca8; }
+.gmt6-lightbox::backdrop { background:#251a26c9;backdrop-filter:blur(5px); }
+.gmt6-lightbox > div {display:flex;align-items:center;gap:18px;justify-content:space-between;padding:11px 14px;
+  background:#fbf7fa;border-bottom:1px solid #eee2e9;color:#3a3037;font-size:13px;font-weight:650;}
+.gmt6-lightbox > div button {width:34px;height:34px;border:1px solid #e6d8e1;border-radius:9px;background:white;color:#633750;font-size:19px;cursor:pointer}
+.gmt6-lightbox img {width:100%;height:auto;max-width:none;display:block}
+/* Thin, unobtrusive progress line — same approved accent color. */
+.gmt6-progress {position:fixed;z-index:60;inset:0 auto auto 0;height:2px;width:100%;pointer-events:none;
+  transform:scaleX(var(--gmt6-progress,0));transform-origin:left center;background:#84385e;
+  transition:transform 75ms linear; }
+@media(max-width:740px){.gmt6-view-image{right:13px;bottom:50px;padding:7px 9px;font-size:10px}.gmt6-lightbox{max-width:97vw}}
+@media(hover:none){.v4-feature::after{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .v5-showcase .v5-glow {animation:none}
+  .v4-bento .v4-feature,.v4-steps .v4-step{transition-delay:0ms!important}
+  .gmt6-view-image,.v5-hero .v4-button span[aria-hidden],.desktop-cta span[aria-hidden]{transition:none}
+  .gmt6-progress{transition:none}
+  .v5-showcase .v4-product,.v5-showcase .v4-product:hover{transform:none!important}
+  .v4-feature .v4-api-diagram,.v4-feature .v4-visual-chart,.v4-feature .v4-candle-wrap,.v4-feature .v4-journal-ui{transform:none!important;transition:none!important}
+  .v5-float-top,.v5-float-bottom{translate:none!important}
+}

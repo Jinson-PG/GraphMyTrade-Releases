@@ -1,0 +1,31 @@
+# PREVIEW ONLY: Copy to wrangler.toml and fill IDs after creating resources.
+# Does NOT overwrite existing sweet-voice-3fdf production Worker.
+name = "graphmytrade-shop-preview"
+main = "src/worker.mjs"
+compatibility_date = "2026-10-21"
+workers_dev = true
+
+[assets]
+directory = "../public"
+binding = "ASSETS"
+# IMPORTANT: Ensure sensitive admin API / HTML always passes through JWT verification.
+run_worker_first = ["/store/admin", "/store/admin/*", "/store/api/*", "/store/media/*", "/store/p/*", "/sitemap.xml"]
+not_found_handling = "404-page"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "graphmytrade-store"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "PRIVATE_ASSETS"
+bucket_name = "graphmytrade-store-private"
+
+[vars]
+ACCESS_TEAM_DOMAIN = "https://REPLACE-WITH-YOUR-TEAM.cloudflareaccess.com"
+ACCESS_AUD = "REPLACE_WITH_YOUR_ACCESS_APPLICATION_AUDIENCE_TAG"
+ADMIN_EMAIL = "REPLACE_WITH_YOUR_VERIFIED_ADMIN_EMAIL"
+
+# Optional online SEO assistant: free allocation applies, quota exhaustion falls back to offline rules.
+[ai]
+binding = "AI"
