@@ -21,7 +21,7 @@ async function readProducts(env){
 }
 // Render approved products in initial HTML so search and AI crawlers do not need JavaScript.
 // The browser retains the same interactive filtering and checkout behavior after hydration.
-function renderShopHome(template,products,preview){
+function renderShopHome(template,products,preview,checkoutEnabled=true){
  const cards=products.map(p=>{
   const url='/store/p/'+encodeURIComponent(p.slug)+'/';
   const img=p.cover?'<img src="'+h(p.cover)+'" loading="lazy" alt="'+h(p.title)+' product preview">':
@@ -29,7 +29,7 @@ function renderShopHome(template,products,preview){
   return '<article class="gmt-product"><a class="gmt-product-image" href="'+url+'" aria-label="View '+h(p.title)+'">'+img+
    '<small>'+h(p.format)+'</small></a><div class="gmt-product-copy"><span class="gmt-product-label">'+h(p.category.replace(/-/g,' '))+'</span>'+
    '<h3><a href="'+url+'">'+h(p.title)+'</a></h3><p>'+h(p.description.slice(0,180))+'</p>'+
-   '<div class="gmt-product-buy"><strong>₹'+p.priceInr+'</strong><a href="'+h(p.checkoutUrl)+'" target="_blank" rel="noopener noreferrer">Buy now ↗</a></div></div></article>';
+   '<div class="gmt-product-buy"><strong>₹'+p.priceInr+'</strong>'+(checkoutEnabled?'<a href="'+h(p.checkoutUrl)+'" target="_blank" rel="noopener noreferrer">Buy now ↗</a>':'<a href="'+url+'">View details ↗</a>')+'</div></div></article>';
  }).join('');
  const grid='<div class="gmt-product-grid" id="gmt-product-grid"'+(products.length?'':' hidden')+'>'+cards+'</div>';
  template=template.replace('<div class="gmt-product-grid" id="gmt-product-grid" hidden></div>',grid);
@@ -54,13 +54,13 @@ function renderShopHome(template,products,preview){
   '<meta name="robots" content="noindex,nofollow">');
  return template;
 }
-function productPage(p,preview){
+function productPage(p,preview,checkoutEnabled=true){
  const canonical=SITE+'/store/p/'+encodeURIComponent(p.slug)+'/';
  const image=p.cover?new URL(p.cover,SITE).href:SITE+'/assets/og-cover.jpg';
  const data={'@context':'https://schema.org','@graph':[
  {'@type':'Product','@id':canonical+'#product',name:p.title,description:p.description,image,category:p.category,
   brand:{'@type':'Brand',name:'GraphMyTrade'},
-  offers:{'@type':'Offer',url:canonical,price:p.priceInr,priceCurrency:'INR',availability:'https://schema.org/InStock'}},
+  ...(checkoutEnabled?{offers:{'@type':'Offer',url:canonical,price:p.priceInr,priceCurrency:'INR',availability:'https://schema.org/InStock'}}:{})},
  {'@type':'BreadcrumbList',itemListElement:[
  {'@type':'ListItem',position:1,name:'Shop',item:SITE+'/store/'},
  {'@type':'ListItem',position:2,name:p.title,item:canonical}]}]};
@@ -85,8 +85,8 @@ function productPage(p,preview){
  p.cover?'<img src="'+h(image)+'" alt="'+h(p.title)+' preview" style="width:100%;max-height:380px;object-fit:contain">':'<div style="font-size:60px;text-align:center;padding:60px 0" aria-hidden="true">▦</div>',
  '</div><div><div class="shop-product-meta">',h(p.category.toUpperCase()),' · ',h(p.format),'</div>',
  '<h1>',h(p.title),'</h1><p>',h(p.description),'</p><h2>₹',p.priceInr,'</h2>',
- '<a class="shop-cta" href="',h(p.checkoutUrl),'" rel="noopener noreferrer" target="_blank">Buy securely on Instamojo ↗</a>',
- '<p style="margin-top:16px">Instamojo is planned to deliver the purchased file after verified payment. This process must be tested before checkout opens.</p>',
+ checkoutEnabled?'<a class="shop-cta" href="'+h(p.checkoutUrl)+'" rel="noopener noreferrer" target="_blank">Buy securely on Instamojo ↗</a>':'<p><strong>Checkout is not active yet.</strong> Payments and file delivery must pass verification first.</p>',
+ checkoutEnabled?'<p style="margin-top:16px">Instamojo handles checkout and is configured for digital delivery. Confirm the full payable amount and download terms at checkout.</p>':'<p style="margin-top:16px">This listing is informational until payment acceptance and buyer delivery are verified.</p>',
  '<p>Digital goods · <a href="/refund-policy/">Refund terms</a> · <a href="/store/">Explore more approved products</a></p></div></div>',
  '<section class="shop-product-info"><h2>Included</h2>',features,
  '<h2>Compatibility</h2><p>',h(p.compatibility||'Check product details before purchase.'),'</p>',
@@ -101,7 +101,9 @@ export default {async fetch(request,env){
  try{
   if(path==='/store/api/catalog'){
    const products=await readProducts(env);
-   const payload={schemaVersion:3,currency:'INR',flatPriceInr:99,checkoutEnabled:products.length>0,checkoutProvider:'instamojo',products};
+   const ready=env.PAYMENT_DELIVERY_VERIFIED==='true';
+   const publicProducts=products.map(p=>ready?p:((({checkoutUrl,...rest})=>rest)(p)));
+   const payload={schemaVersion:3,currency:'INR',flatPriceInr:99,checkoutEnabled:ready&&products.length>0,checkoutProvider:'instamojo',products:publicProducts};
    return new Response(request.method==='HEAD'?null:JSON.stringify(payload),{headers:jsHeaders});
   }
   const match=path.match(/^\/store\/p\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/);
@@ -109,7 +111,7 @@ export default {async fetch(request,env){
    const p=(await readProducts(env)).find(x=>x.slug===match[1]);
    if(!p)return error('Product not found');
    const preview=isPreview(url);
-   return new Response(request.method==='HEAD'?null:productPage(p,preview),{headers:{...htmlHeaders,...(preview?{'X-Robots-Tag':'noindex,nofollow'}:{})}});
+   return new Response(request.method==='HEAD'?null:productPage(p,preview,env.PAYMENT_DELIVERY_VERIFIED==='true'),{headers:{...htmlHeaders,...(preview?{'X-Robots-Tag':'noindex,nofollow'}:{})}});
   }
   if(path==='/sitemap.xml'){
    if(!env.ASSETS)return error('Assets unavailable',503);
@@ -124,7 +126,7 @@ export default {async fetch(request,env){
    const [products,base]=await Promise.all([readProducts(env),env.ASSETS.fetch(assetRequest)]);
    if(!base.ok)return base;
    const preview=isPreview(url);
-   const output=renderShopHome(await base.text(),products,preview);
+   const output=renderShopHome(await base.text(),products,preview,env.PAYMENT_DELIVERY_VERIFIED==='true');
    const headers=new Headers(base.headers);
    headers.set('Content-Type','text/html; charset=utf-8');
    headers.set('Cache-Control','public,max-age=60');
