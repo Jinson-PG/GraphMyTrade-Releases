@@ -11,7 +11,7 @@
  let catalog=[];
  input.value=(q.searchParams.get('q')||'').slice(0,120);
  const node=(tag,cls,text)=>{let x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=text;return x;};
- const safeCheckout=value=>{try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&!u.port&&!u.hash&&['imjo.in','instamojo.com','www.instamojo.com'].includes(u.hostname)&&u.pathname.length>2;}catch{return false;}};
+ const safeCheckout=value=>{try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&!u.port&&!u.hash&&['imjo.in','instamojo.com','www.instamojo.com','graphmytrade99shop.myinstamojo.com'].includes(u.hostname)&&u.pathname.length>2;}catch{return false;}};
  const safeCover=value=>{if(!value)return true;if(/^\/assets\/[a-z0-9/_-]+\.(png|webp|jpe?g)$/i.test(value))return true;try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password;}catch{return false;}};
  const valid=p=>p&&typeof p==='object'&&!Array.isArray(p)&&p.status==='published'&&typeof p.slug==='string'&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.slug)&&p.slug.length<=80&&typeof p.title==='string'&&p.title.trim().length>=3&&p.title.length<=140&&typeof p.description==='string'&&p.description.trim().length>=12&&p.description.length<=2400&&typeof p.category==='string'&&Object.hasOwn(names,p.category)&&formats.has(p.format)&&Number.isInteger(p.priceInr)&&p.priceInr>=1&&p.priceInr<=99&&typeof p.checkoutUrl==='string'&&safeCheckout(p.checkoutUrl)&&(!p.cover||typeof p.cover==='string'&&safeCover(p.cover));
  const prod=p=>{
