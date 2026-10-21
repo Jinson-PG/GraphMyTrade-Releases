@@ -164,3 +164,12 @@ body.gmt-shop{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 I
  .gmt-scroll-meter,.gmt-scroll-top,.gmt-nav{transition:none!important}
  .gmt-scroll-top:hover{transform:none}
 }
+
+/* Keep transition on the final state so reveal animations actually interpolate. */
+.gmt-reveal-pending,.gmt-reveal-visible{
+ transition:opacity .7s ease,transform .78s cubic-bezier(.18,.76,.2,1);
+ transition-delay:var(--reveal-delay,0ms)
+}
+@media(prefers-reduced-motion:reduce){
+ .gmt-reveal-pending,.gmt-reveal-visible{opacity:1!important;transform:none!important;transition:none!important}
+}
