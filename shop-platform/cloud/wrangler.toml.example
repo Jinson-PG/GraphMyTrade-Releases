@@ -15,17 +15,20 @@ not_found_handling = "404-page"
 [[d1_databases]]
 binding = "DB"
 database_name = "graphmytrade-store"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "e760f55a-3fd3-4669-a815-8cfe9c571feb" # ID shown in your D1 dashboard; verify before deployment
 
-[[r2_buckets]]
-binding = "PRIVATE_ASSETS"
-bucket_name = "graphmytrade-store-private"
+# R2 NOT REQUIRED for D1-first preview. Leave PRIVATE_ASSETS unbound.
+# When you decide to enable private storage later, add:
+# [[r2_buckets]]
+# binding = "PRIVATE_ASSETS"
+# bucket_name = "graphmytrade-store-private"
 
 [vars]
 ACCESS_TEAM_DOMAIN = "https://REPLACE-WITH-YOUR-TEAM.cloudflareaccess.com"
 ACCESS_AUD = "REPLACE_WITH_YOUR_ACCESS_APPLICATION_AUDIENCE_TAG"
 ADMIN_EMAIL = "REPLACE_WITH_YOUR_VERIFIED_ADMIN_EMAIL"
 
-# Optional online SEO assistant: free allocation applies, quota exhaustion falls back to offline rules.
-[ai]
-binding = "AI"
+# Optional AI binding postponed too: rule-based SEO suggestions work without it.
+# Uncomment later if your account has free Workers AI allocation and you approve usage.
+# [ai]
+# binding = "AI"

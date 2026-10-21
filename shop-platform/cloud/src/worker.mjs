@@ -93,6 +93,7 @@ function typeMagic(body,mime,kind){
   return true;
 }
 async function privateUpload(request,env,id,kind,email){
+ if(!env.PRIVATE_ASSETS)return err('File storage not enabled yet. R2 activation is postponed. No payment or file delivery is available.',503);
  const row=await getById(env.DB,id);if(!row)return err('Product missing',404);
  if(row.status==='published')return err('Unpublish before editing files',409);
  const bytes=Number(request.headers.get('content-length'));
@@ -137,6 +138,7 @@ async function seoSuggest(input,env){
 async function admin(request,env,url,email){
  const route=url.pathname;
  if(request.method!=='GET'&&request.method!=='HEAD'&&!sameOrigin(request))return err('Cross-origin changes forbidden',403);
+ if(route==='/store/admin/api/status'&&request.method==='GET')return obj({databaseReady:true,storageReady:!!env.PRIVATE_ASSETS,checkoutEnabled:false,canPublish:!!env.PRIVATE_ASSETS,mode:env.PRIVATE_ASSETS?'private-files-enabled':'catalog-only'});
  if(route.startsWith('/store/admin/api/categories'))return categoriesAdmin(request,env,email,url);
  if(route==='/store/admin/api/seo-suggest'&&request.method==='POST'){try{return obj(await seoSuggest(await bodyJson(request),env))}catch(e){return err(e.message)}}
  if(route==='/store/admin/api/products'&&request.method==='GET'){
@@ -159,6 +161,7 @@ async function admin(request,env,url,email){
  if((suffix==='cover'||suffix==='file')&&request.method==='GET'){
   const key=suffix==='cover'?row.cover_key:row.digital_file_key;
   if(!key)return err('No file uploaded',404);
+  if(!env.PRIVATE_ASSETS)return err('Private file storage is not enabled',503);
   const blob=await env.PRIVATE_ASSETS.get(key);if(!blob)return err('Private file unavailable',404);
   return new Response(blob.body,{headers:{...noStore,'Content-Type':blob.httpMetadata?.contentType||'application/octet-stream','Content-Disposition':suffix==='file'?`attachment; filename="${encodeURIComponent(row.filename||'file')}"`:'inline'}});
  }
@@ -175,6 +178,7 @@ async function admin(request,env,url,email){
   let action;try{action=(await bodyJson(request)).action}catch{return err('Invalid action')}
   const next=({draft:{submit:'review'},review:{approve:'approved',reject:'draft'},approved:{publish:'published',reject:'draft'},published:{unpublish:'draft'}})[row.status]?.[action];
   if(!next||!statuses.has(next))return err('Invalid approval transition',409);
+  if(action==='publish'&&!env.PRIVATE_ASSETS)return err('R2 is postponed. You can approve drafts, but public publishing is disabled until private delivery is ready.',409);
   if(action==='publish'&&(!row.seo_title||!row.seo_description||!row.cover_key||!row.digital_file_key))return err('Before publishing: complete SEO, cover and private deliverable file',409);
   const now=new Date().toISOString();
   await env.DB.prepare(`UPDATE products SET status=?,updated_at=?,reviewed_at=CASE WHEN ?='review' THEN ? ELSE reviewed_at END,approved_at=CASE WHEN ?='approved' THEN ? ELSE approved_at END,published_at=CASE WHEN ?='published' THEN ? ELSE CASE WHEN ?='draft' THEN NULL ELSE published_at END END WHERE id=?`)
@@ -187,7 +191,7 @@ export default {
  async fetch(request,env) {
   const url=new URL(request.url),path=url.pathname;
   try{
-   if(!env.ASSETS||!env.DB||!env.PRIVATE_ASSETS)return err('Store bindings are not configured',503);
+   if(!env.ASSETS||!env.DB)return err('Store assets/database bindings are not configured',503);
    if(path==='/store/admin'||path.startsWith('/store/admin/')){
     let email;try{email=await authorize(request,env)}catch{return new Response('Admin access denied. Configure Cloudflare Access and owner email.',{status:403,headers:noStore})}
     if(path.startsWith('/store/admin/api/'))return admin(request,env,url,email);
@@ -198,6 +202,7 @@ export default {
    const image=path.match(/^\/store\/media\/([0-9a-f-]{36})$/);
    if(image&&request.method==='GET'){
     const p=await getById(env.DB,image[1]);if(!p||p.status!=='published'||!p.cover_key)return new Response('Not found',{status:404});
+    if(!env.PRIVATE_ASSETS)return new Response('Not found',{status:404});
     const file=await env.PRIVATE_ASSETS.get(p.cover_key);if(!file)return new Response('Not found',{status:404});
     return new Response(file.body,{headers:{'Content-Type':file.httpMetadata?.contentType||'image/webp','Cache-Control':'public,max-age=180','X-Content-Type-Options':'nosniff'}});
    }

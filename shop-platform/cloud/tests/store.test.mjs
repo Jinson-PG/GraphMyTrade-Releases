@@ -98,3 +98,26 @@ test('categories require owner identity and custom category must exist in D1 bef
  r=await admin(req('/store/admin/api/products','POST',{...product,category:'made-up'}),env,new URL(base+'/store/admin/api/products'),'owner@example.com');assert.equal(r.status,422);
  r=await admin(req('/store/admin/api/categories','POST',{name:'Bad',slug:'../escape'}),env,new URL(base+'/store/admin/api/categories'),'owner@example.com');assert.equal(r.status,400);
 });
+
+
+test('D1-only staging works without R2; no product may publish or upload', async()=>{
+ const env=fixture();delete env.PRIVATE_ASSETS;
+ const owner='owner@example.com';
+ const invoke=async(route,method='GET',data=null,headers={})=>admin(req(route,method,data,headers),env,new URL(base+route),owner);
+ let r=await worker.fetch(req('/store/api/catalog'),env);
+ assert.equal(r.status,200);
+ assert.equal((await r.json()).checkoutEnabled,false);
+ r=await invoke('/store/admin/api/status');assert.equal(r.status,200);
+ const status=await r.json();assert.equal(status.databaseReady,true);assert.equal(status.storageReady,false);assert.equal(status.canPublish,false);
+ r=await invoke('/store/admin/api/categories','POST',{name:'Resume Tools',slug:'resume-tools'});assert.equal(r.status,201);
+ r=await invoke('/store/admin/api/products','POST',{...product,category:'resume-tools',priceInr:79,slug:'kerala-resume-test'});assert.equal(r.status,201);
+ const {id}=await r.json();
+ r=await invoke('/store/admin/api/products/'+id,'PUT',{...product,category:'resume-tools',priceInr:49,slug:'kerala-resume-test'});assert.equal(r.status,200);
+ r=await invoke('/store/admin/api/products/'+id+'/cover','PUT',new Uint8Array([137,80,78,71,13,10,26,10]),{'content-type':'image/png','content-length':'8'});assert.equal(r.status,503);
+ r=await invoke('/store/admin/api/products/'+id+'/action','POST',{action:'submit'});assert.equal(r.status,200);
+ r=await invoke('/store/admin/api/products/'+id+'/action','POST',{action:'approve'});assert.equal(r.status,200);
+ r=await invoke('/store/admin/api/products/'+id+'/action','POST',{action:'publish'});assert.equal(r.status,409);
+ r=await worker.fetch(req('/store/api/catalog'),env);assert.deepEqual((await r.json()).products,[]);
+ r=await worker.fetch(req('/store/p/kerala-resume-test/'),env);assert.equal(r.status,404);
+ r=await worker.fetch(req('/store/admin/'),env);assert.equal(r.status,403);
+});
