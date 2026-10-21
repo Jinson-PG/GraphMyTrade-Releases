@@ -62,3 +62,58 @@
     .catch(()=>{grid.hidden=true;empty.hidden=true;missing.hidden=true;error.hidden=false;result.textContent='Catalog temporarily unavailable';});
   sync();
 })();
+
+
+/* GRAPHMYTRADE MOTION ENGINE 2026-10
+   Progressive enhancement: no dependency on animation for navigation, text or product discovery. */
+(()=>{
+ const mediaOK=window.matchMedia?.('(prefers-reduced-motion: no-preference)').matches;
+ if(!mediaOK)return;
+ // One subtle reveal when each section first becomes visible; original content never starts hidden.
+ if('IntersectionObserver' in window&&typeof Element.prototype.animate==='function'){
+  const observed=new WeakSet();
+  const io=new IntersectionObserver(entries=>{
+   entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;
+    io.unobserve(entry.target);
+    const target=entry.target;
+    if(observed.has(target))return;
+    observed.add(target);
+    target.animate([
+     {opacity:.68,transform:'translate3d(0,14px,0)'},
+     {opacity:1,transform:'translate3d(0,0,0)'}
+    ],{duration:560,easing:'cubic-bezier(.2,.75,.2,1)',iterations:1});
+   });
+  },{rootMargin:'0px 0px -7% 0px',threshold:.08});
+  document.querySelectorAll('.ed-heading,.ed-category,.ed-how,.ed-empty').forEach(node=>io.observe(node));
+  const grid=document.getElementById('ed-products');
+  if(grid&&'MutationObserver' in window){
+   const mo=new MutationObserver(()=>{
+    grid.querySelectorAll('.ed-product').forEach(node=>{if(!observed.has(node))io.observe(node);});
+   });
+   mo.observe(grid,{childList:true});
+  }
+ }
+ // Fine-pointer desktop only; avoid device-orientation permissions and expensive WebGL.
+ if(!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
+ const hero=document.querySelector('.ed-hero-panel');
+ if(!hero)return;
+ let raf=0;
+ let pointerX=0,pointerY=0;
+ hero.addEventListener('pointermove',event=>{
+  const bounds=hero.getBoundingClientRect();
+  pointerX=(event.clientX-bounds.left)/bounds.width-.5;
+  pointerY=(event.clientY-bounds.top)/bounds.height-.5;
+  if(raf)return;
+  raf=requestAnimationFrame(()=>{
+   raf=0;
+   hero.style.setProperty('--motion-x',(pointerX*13).toFixed(2)+'px');
+   hero.style.setProperty('--motion-y',(pointerY*9).toFixed(2)+'px');
+  });
+ },{passive:true});
+ hero.addEventListener('pointerleave',()=>{
+  if(raf){cancelAnimationFrame(raf);raf=0}
+  hero.style.setProperty('--motion-x','0px');
+  hero.style.setProperty('--motion-y','0px');
+ },{passive:true});
+})();
