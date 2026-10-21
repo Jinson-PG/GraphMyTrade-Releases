@@ -19,16 +19,16 @@
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://graphmytrade.com/store/#webpage","url":"https://graphmytrade.com/store/","name":"GraphMyTrade 99 Shop","description":"A curated collection of Excel tools, templates, career materials, study resources and other digital goods priced between one and ninety-nine Indian rupees.","isPartOf":{"@id":"https://graphmytrade.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"GraphMyTrade","item":"https://graphmytrade.com/"},{"@type":"ListItem","position":2,"name":"99 Shop","item":"https://graphmytrade.com/store/"}]}]}</script>
 </head>
-<body class="gmt-shop">
+<body class="gmt-shop" id="top">
 <a href="#collection" class="gmt-skip">Skip to products</a>
-<header class="gmt-nav">
+<header class="gmt-nav"><div class="gmt-scroll-meter" id="gmt-scroll-meter" aria-hidden="true"></div>
   <div class="gmt-wrap gmt-nav-inner">
     <a href="/store/" class="gmt-brand" aria-label="GraphMyTrade 99 Shop home">
       <img src="/assets/graphmytrade-app-logo.png" width="38" height="38" alt="">
       <span class="gmt-brand-name"><strong>GraphMyTrade</strong><small>THE 99 SHOP</small></span>
     </a>
     <nav class="gmt-menu" aria-label="Shop navigation">
-      <a href="#collection">Shop all</a><a href="#categories">Categories</a><a href="#how-it-works">How it works</a>
+      <a href="#categories">Categories</a><a href="#collection">Collection</a><a href="#how-it-works">How it works</a>
       <a class="gmt-back" href="/">Main website ↗</a>
     </nav>
   </div>
@@ -39,7 +39,7 @@
       <div class="gmt-hero-text">
         <span class="gmt-hero-eyebrow">GRAPHMYTRADE / DIGITAL COLLECTION</span>
         <h1 id="gmt-title">Small price.<br><em>Big possibilities.</em></h1>
-        <p>Not another crowded marketplace. Just useful templates, tools and resources for work, study and life — each priced from ₹1 to ₹99.</p>
+        <p>A considered edit of practical digital tools, templates and resources. Made for work, study and everyday life — all from ₹1 to ₹99.</p>
         <div class="gmt-hero-actions">
           <a href="#collection" class="gmt-primary">Explore the collection <span aria-hidden="true">↗</span></a>
           <a href="#categories" class="gmt-link-quiet">Find your category</a>
@@ -56,6 +56,18 @@ SIMPLE.</strong><span>DIGITAL GOODS / USEFUL BY DESIGN</span></div>
     </div>
     <div class="gmt-proof" aria-label="Shop principles">
       <span>₹1–₹99 per product</span><span>Real listings only</span><span>Clear file and license details</span>
+    </div>
+  </section>
+  <section class="gmt-wrap gmt-section gmt-categories" id="categories" aria-labelledby="gmt-categories-title">
+    <div class="gmt-section-head" data-reveal><div><span class="gmt-kicker">BROWSE BY PURPOSE</span><h2 id="gmt-categories-title">Find your next essential.</h2></div>
+      <p>From career prep to personal productivity, start with what you need.</p></div>
+    <div class="gmt-cat-grid">
+      <a class="gmt-cat" data-reveal data-category-tile="career" href="/store/?category=career#collection"><span class="gmt-cat-symbol" aria-hidden="true">CV</span><b>Career &amp; resumes</b><small>Job search essentials</small></a>
+      <a class="gmt-cat" data-reveal data-category-tile="excel" href="/store/?category=excel#collection"><span class="gmt-cat-symbol" aria-hidden="true">X</span><b>Excel &amp; Sheets</b><small>Productive spreadsheets</small></a>
+      <a class="gmt-cat" data-reveal data-category-tile="notion" href="/store/?category=notion#collection"><span class="gmt-cat-symbol" aria-hidden="true">N</span><b>Notion templates</b><small>Organise your everyday</small></a>
+      <a class="gmt-cat" data-reveal data-category-tile="guides" href="/store/?category=guides#collection"><span class="gmt-cat-symbol" aria-hidden="true">Aa</span><b>PDFs &amp; e-books</b><small>Helpful guides</small></a>
+      <a class="gmt-cat" data-reveal data-category-tile="education" href="/store/?category=education#collection"><span class="gmt-cat-symbol" aria-hidden="true">✳</span><b>Study materials</b><small>Learn with clarity</small></a>
+      <a class="gmt-cat" data-reveal data-category-tile="bundles" href="/store/?category=bundles#collection"><span class="gmt-cat-symbol" aria-hidden="true">+</span><b>Digital bundles</b><small>Useful tools together</small></a>
     </div>
   </section>
   <section class="gmt-wrap gmt-section gmt-catalog" id="collection" aria-labelledby="gmt-collection-title">
@@ -80,34 +92,23 @@ SIMPLE.</strong><span>DIGITAL GOODS / USEFUL BY DESIGN</span></div>
     </div>
     <p class="gmt-results" id="gmt-results" aria-live="polite">Loading the collection…</p>
     <div class="gmt-product-grid" id="gmt-product-grid" hidden></div>
-    <div class="gmt-empty" id="gmt-empty" hidden><div>
+    <div class="gmt-empty" id="gmt-empty" data-reveal hidden><div>
       <small>CURATED WITH CARE / FIRST EDITION</small>
       <h3>The collection is taking shape.</h3>
       <p>Only approved, finished products will appear here. The first downloads are being prepared — no placeholder products or made-up reviews.</p>
     </div></div>
-    <div class="gmt-empty" id="gmt-no-results" hidden><div>
+    <div class="gmt-empty" id="gmt-no-results" data-reveal hidden><div>
       <small>SEARCH / NO MATCHES</small><h3>Nothing in this selection yet.</h3>
       <p>Try another category or a simpler search.</p><button class="gmt-reset" type="button" id="gmt-reset">View all products</button>
     </div></div>
     <p id="gmt-error" class="gmt-error" hidden role="alert">Products couldn't be loaded right now. Please try again later.</p>
   </section>
-  <section class="gmt-wrap gmt-section gmt-categories" id="categories" aria-labelledby="gmt-categories-title">
-    <div class="gmt-section-head"><div><span class="gmt-kicker">BROWSE BY PURPOSE</span><h2 id="gmt-categories-title">Find your next essential.</h2></div>
-      <p>From career prep to personal productivity, start with what you need.</p></div>
-    <div class="gmt-cat-grid">
-      <a class="gmt-cat" data-category-tile="career" href="/store/?category=career#collection"><span class="gmt-cat-symbol" aria-hidden="true">CV</span><b>Career &amp; resumes</b><small>Job search essentials</small></a>
-      <a class="gmt-cat" data-category-tile="excel" href="/store/?category=excel#collection"><span class="gmt-cat-symbol" aria-hidden="true">X</span><b>Excel &amp; Sheets</b><small>Productive spreadsheets</small></a>
-      <a class="gmt-cat" data-category-tile="notion" href="/store/?category=notion#collection"><span class="gmt-cat-symbol" aria-hidden="true">N</span><b>Notion templates</b><small>Organise your everyday</small></a>
-      <a class="gmt-cat" data-category-tile="guides" href="/store/?category=guides#collection"><span class="gmt-cat-symbol" aria-hidden="true">Aa</span><b>PDFs &amp; e-books</b><small>Helpful guides</small></a>
-      <a class="gmt-cat" data-category-tile="education" href="/store/?category=education#collection"><span class="gmt-cat-symbol" aria-hidden="true">✳</span><b>Study materials</b><small>Learn with clarity</small></a>
-      <a class="gmt-cat" data-category-tile="bundles" href="/store/?category=bundles#collection"><span class="gmt-cat-symbol" aria-hidden="true">+</span><b>Digital bundles</b><small>Useful tools together</small></a>
-    </div>
-  </section>
-  <section class="gmt-wrap gmt-final-note" id="how-it-works">
+  <section class="gmt-wrap gmt-final-note" id="how-it-works" data-reveal>
     <div><span class="gmt-kicker">SIMPLE BY DESIGN</span><h2>Choose. Pay. Download.</h2></div>
     <p>Every approved product will clearly show its format, contents and license. Purchases will use Instamojo checkout, with hosted file delivery after payment — once payment activation and a real buyer-delivery test are complete. No checkout is active yet.</p>
   </section>
 </main>
+<button type="button" id="gmt-scroll-top" class="gmt-scroll-top" aria-label="Back to top" hidden>↑</button>
 <footer class="gmt-footer"><div class="gmt-wrap">
   <div class="gmt-footer-top"><div><a href="/"><b>GraphMyTrade</b></a><small>Curated digital essentials / The 99 Shop</small></div>
     <nav aria-label="Policies"><a href="/store/">Shop</a><a href="/">Main website</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/refund-policy/">Refund policy</a></nav>
