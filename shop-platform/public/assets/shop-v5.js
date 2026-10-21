@@ -135,6 +135,13 @@
    io.observe(element);
  };
  document.querySelectorAll('[data-reveal]').forEach((el,index)=>register(el,index));
+ // Hidden empty states are made visible only after the catalog request resolves.
+ if('MutationObserver' in window){
+   ['gmt-empty','gmt-no-results'].forEach(id=>{
+     const el=document.getElementById(id);
+     if(el)new MutationObserver(()=>{if(!el.hidden)register(el,0);}).observe(el,{attributes:true,attributeFilter:['hidden']});
+   });
+ }
  const grid=document.getElementById('gmt-product-grid');
  if(grid&&'MutationObserver' in window){
    const watch=new MutationObserver(()=>grid.querySelectorAll('.gmt-product').forEach((node,i)=>register(node,i)));
