@@ -90,3 +90,24 @@ test('product SEO includes canonical, open graph URL, price and visible compatib
  assert.match(html,/Personal use/);
  assert.doesNotMatch(html,/aggregateRating|reviewCount/);
 });
+
+
+test('payment verification gate hides checkout while leaving approved SEO pages discoverable',()=>{
+ const p=publishedProducts([header,row('seo-ready-product')].join('\n'))[0];
+ const home=renderShopHome(storeHtml,[p],false,false);
+ assert.match(home,/\/store\/p\/seo-ready-product\//);
+ assert.match(home,/View details ↗/);
+ assert.doesNotMatch(home,/Buy now ↗/);
+ const detail=productPage(p,false,false);
+ assert.match(detail,/Checkout is not active yet/);
+ assert.doesNotMatch(detail,/Buy securely on Instamojo/);
+ assert.doesNotMatch(detail,/"@type":"Offer"/);
+});
+test('checkout switch defaults to disabled; API exposes no checkout URL until verified',async()=>{
+ const env={SHEET_CSV_URL:'',PAYMENT_DELIVERY_VERIFIED:'false'};
+ const response=await worker.fetch(new Request('https://graphmytrade.com/store/api/catalog'),env);
+ assert.equal(response.status,200);
+ const payload=await response.json();
+ assert.equal(payload.checkoutEnabled,false);
+ assert.deepEqual(payload.products,[]);
+});
