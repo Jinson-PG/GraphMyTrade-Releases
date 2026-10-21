@@ -173,3 +173,14 @@ body.gmt-shop{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 I
 @media(prefers-reduced-motion:reduce){
  .gmt-reveal-pending,.gmt-reveal-visible{opacity:1!important;transform:none!important;transition:none!important}
 }
+
+/* Helpful buyer answers: visible plain HTML for readers and crawlers. */
+.gmt-seo-faq{border-top:1px solid #e9dfe6;padding:38px 0 65px}
+.gmt-faq-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:21px}
+.gmt-faq-intro h2{font-family:Georgia,serif;font-size:clamp(29px,3vw,39px);font-weight:400;letter-spacing:-.042em;line-height:1.14;margin-top:9px}
+.gmt-faq-intro p{font-size:12px;color:#847582;max-width:270px;line-height:1.7}
+.gmt-faq-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.gmt-faq-item{background:linear-gradient(135deg,#fff,#fcf9fb);border:1px solid #e8dfe6;border-radius:13px;padding:20px 21px}
+.gmt-faq-item h3{font-size:13px;line-height:1.42;font-weight:750;letter-spacing:-.015em}
+.gmt-faq-item p{margin-top:9px;font-size:11px;line-height:1.7;color:#847783}
+@media(max-width:760px){.gmt-faq-intro{align-items:start;flex-direction:column;gap:10px}.gmt-faq-grid{grid-template-columns:1fr;gap:9px}.gmt-faq-item{padding:18px}.gmt-seo-faq{padding:28px 0 43px}}
