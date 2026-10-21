@@ -36,7 +36,7 @@ function productPage(p,preview){
  '<title>',h(p.seoTitle),'</title><meta name="description" content="',h(p.seoDescription),'">',
  '<link rel="canonical" href="',h(canonical),'"><meta property="og:type" content="product">',
  '<meta property="og:title" content="',h(p.seoTitle),'"><meta property="og:description" content="',h(p.seoDescription),'">',
- '<meta property="og:image" content="',h(image),'"><link rel="stylesheet" href="/assets/store-v3.css">',
+ '<meta property="og:image" content="',h(image),'"><link rel="stylesheet" href="/assets/shop-editorial.css">',
  '<script type="application/ld+json">',safeJson(data),'</script></head><body class="shop-page">',
  '<header class="shop-header"><div class="shop-container shop-header-row"><a href="/" class="shop-logo">',
  '<img src="/assets/graphmytrade-app-logo.png" width="38" height="38" alt=""><span><b>GraphMyTrade</b><small>99 SHOP</small></span></a>',
@@ -48,7 +48,7 @@ function productPage(p,preview){
  '</div><div><div class="shop-product-meta">',h(p.category.toUpperCase()),' · ',h(p.format),'</div>',
  '<h1>',h(p.title),'</h1><p>',h(p.description),'</p><h2>₹',p.priceInr,'</h2>',
  '<a class="shop-cta" href="',h(p.checkoutUrl),'" rel="noopener noreferrer" target="_blank">Buy securely on Instamojo ↗</a>',
- '<p style="margin-top:16px">Instamojo handles payment and automatically emails your download. Confirm the amount at checkout.</p>',
+ '<p style="margin-top:16px">Instamojo is planned to deliver the purchased file after verified payment. This process must be tested before checkout opens.</p>',
  '<p>Digital goods · <a href="/refund-policy/">Refund terms</a></p></div></div>',
  '<section class="shop-product-info"><h2>Included</h2>',features,
  '<h2>Compatibility</h2><p>',h(p.compatibility||'Check product details before purchase.'),'</p>',
@@ -59,6 +59,7 @@ export default {async fetch(request,env){
  const url=new URL(request.url),path=url.pathname;
  if(path==='/store/admin'||path.startsWith('/store/admin/')||path.startsWith('/store/media/'))return error('Not enabled in the simplified shop',403);
  if(!['GET','HEAD'].includes(request.method))return error('Method not allowed',405);
+ if(/^\/store\/(?:cart|library)\/?$/.test(path))return Response.redirect(url.origin+'/store/',302);
  try{
   if(path==='/store/api/catalog'){
    const products=await readProducts(env);
@@ -80,7 +81,10 @@ export default {async fetch(request,env){
    return new Response(request.method==='HEAD'?null:(await res.text()).replace('</urlset>',entries+'</urlset>'),{headers:{'Content-Type':'application/xml; charset=utf-8','Cache-Control':'public,max-age=120',...(isPreview(url)?{'X-Robots-Tag':'noindex'}:{})}});
   }
   if(!env.ASSETS)return error('Assets missing',503);
-  return env.ASSETS.fetch(request);
+  const asset=await env.ASSETS.fetch(request);
+  if(!isPreview(url))return asset;
+  const headers=new Headers(asset.headers);headers.set('X-Robots-Tag','noindex,nofollow');
+  return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,statusText:asset.statusText,headers});
  }catch{return error('Store catalog temporarily unavailable',503);}
 }};
 export {readProducts,productPage};
