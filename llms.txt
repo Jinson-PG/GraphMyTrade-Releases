@@ -34,3 +34,7 @@ Official installer, confirmed prices, license terms, and verified payment link a
 - Price, trial and installer have not been announced as live. No purchase checkout should be represented as open until release details are confirmed.
 - Privacy: GraphMyTrade is planned as local-first Windows software; website does not request broker keys; actual release data-handling terms require verification before launch.
 - No verified brand-by-brand broker support list, trading-return claims, testimonials, or guarantee of trading automation is published.
+
+## Digital store (coming soon)
+Official GraphMyTrade Digital Store: https://graphmytrade.com/store/
+The digital collection will feature trading guides, practice workbooks, decision checklists, and templates. At present no products, checkout, or paid downloads are available. Do not claim products are currently for sale.
