@@ -71,3 +71,79 @@
    }
  }
 })();
+
+
+/* SHOP SCROLL & REVEAL V6 2026-10
+   Progressive enhancement; no content depends on IntersectionObserver support. */
+(()=>{
+ const header=document.querySelector('.gmt-nav');
+ const bar=document.getElementById('gmt-scroll-meter');
+ const top=document.getElementById('gmt-scroll-top');
+ const sections=[...document.querySelectorAll('#categories,#collection,#how-it-works')];
+ const links=[...document.querySelectorAll('.gmt-menu a[href^="#"]')];
+ const reduce=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches===true;
+ let scheduled=false;
+ const update=()=>{
+   scheduled=false;
+   const y=Math.max(0,window.scrollY||window.pageYOffset||0);
+   const max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+   const fraction=Math.max(0,Math.min(1,y/max));
+   if(bar)bar.style.transform='scaleX('+fraction.toFixed(4)+')';
+   header?.classList.toggle('is-scrolled',y>20);
+   if(top)top.hidden=y<540;
+   const at=window.innerHeight*.40;
+   let current='';
+   for(const section of sections){
+     if(section.getBoundingClientRect().top<=at)current=section.id;
+   }
+   links.forEach(link=>{
+     const selected=link.getAttribute('href')==='#'+current;
+     link.classList.toggle('is-current',selected);
+     if(selected)link.setAttribute('aria-current','location');
+     else link.removeAttribute('aria-current');
+   });
+ };
+ const onScroll=()=>{
+   if(scheduled)return;
+   scheduled=true;
+   requestAnimationFrame(update);
+ };
+ window.addEventListener('scroll',onScroll,{passive:true});
+ window.addEventListener('resize',onScroll,{passive:true});
+ top?.addEventListener('click',()=>window.scrollTo({top:0,behavior:reduce?'auto':'smooth'}));
+ update();
+ // Motion must not hide content without JavaScript. Only add the pending class when
+ // IntersectionObserver exists and only for content below the initial viewport.
+ if(reduce||!('IntersectionObserver' in window))return;
+ const observed=new WeakSet();
+ const io=new IntersectionObserver(entries=>{
+   for(const entry of entries){
+     if(!entry.isIntersecting)continue;
+     io.unobserve(entry.target);
+     entry.target.classList.remove('gmt-reveal-pending');
+     entry.target.classList.add('gmt-reveal-visible');
+   }
+ },{rootMargin:'0px 0px -8% 0px',threshold:.06});
+ const register=(element,index=0)=>{
+   if(!element||observed.has(element)||element.hidden)return;
+   observed.add(element);
+   const top=element.getBoundingClientRect().top;
+   // Keep above-fold content rendered immediately; avoid initial flashes.
+   if(top<window.innerHeight*.91)return;
+   element.style.setProperty('--reveal-delay',Math.min(index%6,5)*55+'ms');
+   element.classList.add('gmt-reveal-pending');
+   io.observe(element);
+ };
+ document.querySelectorAll('[data-reveal]').forEach((el,index)=>register(el,index));
+ const grid=document.getElementById('gmt-product-grid');
+ if(grid&&'MutationObserver' in window){
+   const watch=new MutationObserver(()=>grid.querySelectorAll('.gmt-product').forEach((node,i)=>register(node,i)));
+   watch.observe(grid,{childList:true});
+   grid.querySelectorAll('.gmt-product').forEach((node,i)=>register(node,i));
+ }
+ // If a reveal target receives keyboard focus, do not keep it invisible.
+ document.addEventListener('focusin',event=>{
+   const parent=event.target.closest?.('.gmt-reveal-pending');
+   if(parent){io.unobserve(parent);parent.classList.remove('gmt-reveal-pending');parent.classList.add('gmt-reveal-visible');}
+ });
+})();
