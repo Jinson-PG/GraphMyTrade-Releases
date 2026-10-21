@@ -15,3 +15,6 @@ not_found_handling = "404-page"
 [vars]
 # Once individual approved products exist, use a published PUBLIC product-only Google Sheets CSV URL here.
 SHEET_CSV_URL = ""
+# Switch to "true" ONLY after Instamojo payment activation and a successful
+# verified buyer payment + automatic download/email delivery test.
+PAYMENT_DELIVERY_VERIFIED = "false"
