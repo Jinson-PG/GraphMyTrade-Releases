@@ -74,7 +74,7 @@ function productPage(p,preview,checkoutEnabled=true){
  '<meta property="og:image" content="',h(image),'"><meta property="og:url" content="',h(canonical),'">',
  '<meta property="og:site_name" content="GraphMyTrade"><meta name="twitter:card" content="summary_large_image">',
  '<meta name="twitter:title" content="',h(p.seoTitle),'"><meta name="twitter:description" content="',h(p.seoDescription),'">',
- '<link rel="stylesheet" href="/assets/shop-v5.css">',
+ '<link rel="stylesheet" href="/assets/shop-polished.css">',
  '<script type="application/ld+json">',safeJson(data),'</script></head><body class="shop-page">',
  '<header class="shop-header"><div class="shop-container shop-header-row"><a href="/" class="shop-logo">',
  '<img src="/assets/graphmytrade-app-logo.png" width="38" height="38" alt=""><span><b>GraphMyTrade</b><small>99 SHOP</small></span></a>',
