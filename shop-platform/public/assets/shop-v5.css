@@ -90,3 +90,77 @@ body.gmt-shop{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 I
 .gmt-proof{margin-top:13px}.gmt-section-head{display:block;margin-bottom:20px}.gmt-section-head p{margin-top:10px}.gmt-section h2{font-size:36px}.gmt-catalog{padding-top:48px}.gmt-filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:-14px;padding-bottom:4px}.gmt-filter{white-space:nowrap;padding:8px 12px;flex:0 0 auto}.gmt-products{grid-template-columns:1fr}.gmt-product-grid{grid-template-columns:1fr}.gmt-cat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.gmt-cat{min-height:138px;padding:16px}.gmt-cat-symbol{height:35px;width:35px;margin-bottom:15px;font-size:19px}.gmt-cat b{font-size:12px}.gmt-cat small{font-size:10px}.gmt-categories{padding-bottom:48px}.gmt-empty{padding:28px 24px;min-height:210px}.gmt-empty h3{font-size:30px}.gmt-final-note{padding:33px 0}.gmt-final-note h2{font-size:28px}.gmt-footer nav{gap:10px 17px}}
 @media(pointer:coarse),(max-width:760px){.gmt-art-b,.gmt-art-pill{animation:none!important}.gmt-hero-art{transform:none!important}.gmt-product:hover,.gmt-cat:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}.gmt-hero-art{transform:none!important}.gmt-art-b{transform:rotate(12deg)}.gmt-art-pill{transform:rotate(-7deg)}}
+
+
+/* FINAL SCROLL SYSTEM 2026-10-21 — compact boutique layout & motion */
+.gmt-nav{transition:box-shadow .25s ease,border-color .25s ease,background-color .25s ease}
+.gmt-nav.is-scrolled{background:#fffcfdf8;border-color:#e7d6e1;box-shadow:0 10px 28px -25px #4c32457a}
+.gmt-scroll-meter{position:absolute;left:0;bottom:0;width:100%;height:2px;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,#b57b9a,#dfb5c7,#b57b9a);pointer-events:none;z-index:2;will-change:transform}
+.gmt-menu a.is-current:not(.gmt-back){color:#985c7f}
+.gmt-menu a.is-current:not(.gmt-back)::after{content:"";height:2px;background:#b882a0;border-radius:3px;display:block;margin-top:4px}
+.gmt-hero{padding-top:22px}
+.gmt-hero-stage{min-height:394px}
+.gmt-hero-text{padding-top:51px;padding-bottom:46px}
+.gmt-proof{margin:18px 0 0}
+.gmt-section-head{margin-bottom:20px}
+.gmt-categories{padding:56px 0 18px}
+.gmt-categories .gmt-section-head{margin-bottom:19px}
+.gmt-cat-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.gmt-cat{min-height:143px;padding:18px 15px;border-radius:13px}
+.gmt-cat:after{right:12px;top:11px;font-size:15px}
+.gmt-cat-symbol{width:37px;height:37px;font-size:19px;margin-bottom:17px}
+.gmt-cat b{font-size:12px;line-height:1.2;letter-spacing:-.022em}
+.gmt-cat small{font-size:10px;line-height:1.4;margin-top:6px}
+.gmt-catalog{padding-top:54px;padding-bottom:72px}
+.gmt-catalog .gmt-section-head{margin-bottom:19px}
+.gmt-filters{flex-wrap:wrap}
+.gmt-final-note{padding-top:37px;padding-bottom:44px}
+.gmt-scroll-top{position:fixed;bottom:24px;right:24px;z-index:65;width:45px;height:45px;display:grid;place-items:center;border:1px solid #c8a9bc;border-radius:14px;box-shadow:0 12px 30px -16px #3b283aca;background:#392738;color:#fff;font-size:22px;line-height:1;transition:transform .23s,background .23s,box-shadow .23s}
+.gmt-scroll-top:hover{transform:translateY(-4px);background:#70445f;box-shadow:0 16px 34px -17px #402c3b}
+.gmt-shop [hidden]{display:none!important}
+/* JS applies pending state only to offscreen items; HTML stays visible to crawlers, and all content works without JS. */
+.gmt-reveal-pending{opacity:0;transform:translate3d(0,23px,0);transition:opacity .68s ease,transform .78s cubic-bezier(.18,.76,.2,1);transition-delay:var(--reveal-delay,0ms)}
+.gmt-reveal-visible{opacity:1;transform:translate3d(0,0,0)}
+.gmt-cat.gmt-reveal-pending,.gmt-product.gmt-reveal-pending{box-shadow:none}
+.gmt-cat.gmt-reveal-visible:hover{transform:translate3d(0,-4px,0)}
+.gmt-product.gmt-reveal-visible:hover{transform:translate3d(0,-5px,0)}
+/* Collection responds as one compact shopping area. */
+.gmt-catalog .gmt-tools{border-top:1px solid #e6dce3}
+.gmt-catalog .gmt-results{margin-bottom:18px}
+.gmt-cat-grid{scrollbar-color:#c4a4b9 transparent}
+.gmt-cat{background:linear-gradient(145deg,#ffffff 60%,#faf4f8 100%)}
+.gmt-cat:hover{background:linear-gradient(145deg,#fff 35%,#f6edf2 100%)}
+@media(max-width:1080px){
+ .gmt-cat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .gmt-cat{min-height:137px;padding:18px}
+ .gmt-cat b{font-size:13px}
+ .gmt-cat-symbol{margin-bottom:14px}
+}
+@media(max-width:760px){
+ .gmt-hero-stage{min-height:0}
+ .gmt-hero-text{padding-top:42px;padding-bottom:5px}
+ .gmt-categories{padding:45px 0 6px}
+ .gmt-section-head{margin-bottom:18px}
+ .gmt-categories .gmt-section-head p{max-width:440px}
+ /* A single horizontal swipe row instead of three stacked category rows. */
+ .gmt-cat-grid{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scroll-padding-inline:2px;padding:2px 1px 12px;margin-right:-16px;scrollbar-width:thin}
+ .gmt-cat{min-width:175px;width:175px;max-width:175px;min-height:139px;flex:0 0 auto;scroll-snap-align:start}
+ .gmt-cat b{font-size:12px}
+ .gmt-catalog{padding-top:40px;padding-bottom:56px}
+ .gmt-scroll-top{right:14px;bottom:16px;width:40px;height:40px;font-size:19px;border-radius:12px}
+ .gmt-reveal-pending{transform:translate3d(0,13px,0)}
+}
+@media(max-width:500px){
+ .gmt-hero-text{padding-top:36px;padding-bottom:0}
+ .gmt-categories{padding-top:39px;padding-bottom:0}
+ .gmt-cat-grid{margin-right:-14px}
+ .gmt-catalog{padding-top:35px}
+ .gmt-section h2{font-size:33px}
+ .gmt-final-note{padding-top:30px;padding-bottom:36px}
+}
+/* None of these effects is required to use the shop. */
+@media(prefers-reduced-motion:reduce){
+ .gmt-reveal-pending,.gmt-reveal-visible{opacity:1!important;transform:none!important;transition:none!important}
+ .gmt-scroll-meter,.gmt-scroll-top,.gmt-nav{transition:none!important}
+ .gmt-scroll-top:hover{transform:none}
+}
