@@ -120,7 +120,8 @@ export default {async fetch(request,env){
   }
   if(!env.ASSETS)return error('Assets missing',503);
   if(path==='/store/'||path==='/store/index.html'){
-   const [products,base]=await Promise.all([readProducts(env),env.ASSETS.fetch(request)]);
+   const assetRequest=request.method==='HEAD'?new Request(request.url,{method:'GET'}):request;
+   const [products,base]=await Promise.all([readProducts(env),env.ASSETS.fetch(assetRequest)]);
    if(!base.ok)return base;
    const preview=isPreview(url);
    const output=renderShopHome(await base.text(),products,preview);
@@ -137,4 +138,4 @@ export default {async fetch(request,env){
   return new Response(request.method==='HEAD'?null:asset.body,{status:asset.status,statusText:asset.statusText,headers});
  }catch{return error('Store catalog temporarily unavailable',503);}
 }};
-export {readProducts,productPage};
+export {readProducts,productPage,renderShopHome};
