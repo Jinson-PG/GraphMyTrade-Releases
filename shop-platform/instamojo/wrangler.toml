@@ -7,7 +7,9 @@ workers_dev = true
 [assets]
 directory = "../public"
 binding = "ASSETS"
-run_worker_first = ["/store/api/*", "/store/p/*", "/sitemap.xml", "/store/admin", "/store/admin/*", "/store/media/*"]
+# All preview requests go through the worker so X-Robots-Tag is enforced,
+# including static HTML and the original homepage on workers.dev.
+run_worker_first = true
 not_found_handling = "404-page"
 
 [vars]
